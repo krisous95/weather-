@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+
+
+
+function getWeather() { //create a new function
+var theCity = document.getElementById("city").value; //a variable that uses the DOM to get the value of an element by its ID; in this case the id is 'city'
+const data = null; //variable named data whose value is null 
+
+const xhr = new XMLHttpRequest(); //a variable that is a new XMLHttpRequest object
+xhr.withCredentials = true; //withCredentials method on a xhr object with the value of true
+
+xhr.addEventListener("readystatechange", function () { //an event listener is added to the xhr object where readystatechange is the event that needs to happen to execute function()
+	if (this.readyState === this.DONE) { //if statement that checks if this.readyState equals this.DONE
+		console.log(this.responseText); // this.responseText will log to the console if the previous conditional is satisfied
+		const weatherObj = JSON.parse(this.responseText); //a variable called weatherObj that turns this.responseText will be created as a part of the conditional
+		
+		console.log(weatherObj.name) // the value of 'name' inside of 'timezone' inside of the weather object will be logged to the console if the conditional is satisfied
+		
+		theHTML = document.getElementById("weatherdisplay") // a variable called 'theHTML' uses the DOM to call the element with an ID of weatherdisplay; the html div tag has this ID in this case
+		theWhere = document.getElementById("where")
+		theHTML.innerHTML = weatherObj.main.temp // theHTML variable has a method of .innerHTML which will display the 'temp' inside 'main' inside 'weatherObj' to the webpage
+		theWhere.innerHTML = weatherObj.coord.lon
+	}
+});
+
+xhr.open("GET", "https://community-open-weather-map.p.rapidapi.com/weather?q=" + theCity + "&units=imperial"); // .open method is attached xhr object whose parameter is calling out to the API
+xhr.setRequestHeader("x-rapidapi-key", "809ea7668fmsh12ba5261e3fc8fap138bbfjsnb1864f44905d");
+xhr.setRequestHeader("x-rapidapi-host", "community-open-weather-map.p.rapidapi.com");
+xhr.withCredentials=false;
+xhr.send(data);
+
+}
+
+/* An input field was created that takes a city name that a user types in. When a user 
+clicks the button labeled 'Get Weather', a function called getWeather() executes. The getWeather()
+function gets the value(via the DOM) that the user types in and the remainder of the function
+executes. In summary, the remainder of the function parses the specified JSON information
+which looks for the temperature associated with the city the user typed in. That temperature 
+is then displayed on the webpage by using the innerHTML method on an object that gets the div
+element by its ID of 'weatherdisplay'. */
+
+
+
+</script>
+</head>
+<body >
+
+<!-- Input -->
+City Name: <input type="text" id="city"> <!-- an HTML input field with a 'text' type and an ID of 'city' -->
+<button onclick="getWeather()">Get Weather</button> <!-- A button created that when clicked, will run a function called getWeather() -->
+
+<div id="weatherdisplay"> <!-- a div tag with an id of weatherdisplay -->
+
+
+</div>
+<div id="where"><div>
+</body>
+</html>
+
+
+
+
+
+
+
